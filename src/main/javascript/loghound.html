@@ -1,0 +1,340 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" >
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>Facets Log Hound Demo Page</title>
+<link href="loghound.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" src="fcts_lib.js" type="text/JavaScript"></script>
+<script language="JavaScript" src="loghound.js" type="text/JavaScript"></script>
+<script language="JavaScript" type="text/JavaScript">
+var quotes = new Array();
+quotes[quotes.length] = 'damnant quod non intelligunt - "they condemn what they do not understand"';
+quotes[quotes.length] = 'contra bonos mores - "against the best interests of society"';
+quotes[quotes.length] = 'homo doctus in se semper divitias habet - "a learned man alwasy has wealth within himself"';
+quotes[quotes.length] = 'homo homini lupus - "man\'s inhumanity to man", literally "man is a wolf to man"';
+quotes[quotes.length] = 'in vino veritas - "win loosens the tongue", litterally "in wine, the truth"';
+
+function changeMsgLayout() {
+    var selectElmt = document.getElementById('msgLayoutSelect');
+    window.logHound.setMessageLayout(selectElmt.options[selectElmt.selectedIndex].value);
+}
+function toggleLogging() {
+    window.logHound.enableLogging(document.getElementById('enableChkBx').checked);
+}
+function toggleShadeMode() {
+    window.logHound.setShadeState(document.getElementById('shadeChkBx').checked);
+}
+function showClicked() {
+    window.logHound.show(document.getElementById('showChkBx').checked);
+}
+function generateRandomMsgs() {
+    var count = document.getElementById('genCount').value;
+    count = parseInt(count);
+    var level = null;
+    var msg = null;
+    for(var i=0; i<count; i++) {
+        level = LogHoundLevels[Math.floor(Math.random()*LogHoundLevels.length)];
+        msg = quotes[Math.floor(Math.random()*quotes.length)];
+        window.logHound.log(msg,level);
+    }
+}
+function addLogLevels() {
+    var lvlSelect = document.getElementById('logMsgLevelSelect');
+    var level;
+    for(idx = 0; idx<LogHoundLevels.length; idx++) {
+        level = LogHoundLevels[idx];
+        lvlSelect.options[lvlSelect.length] = new Option(level.getName(),level.getId());
+    }
+}
+function enterLogMessage() {
+    var levelId = document.getElementById('logMsgLevelSelect').value;
+    var msg = document.getElementById('logMsgText').value;
+    var what = LogHoundLevels.getById(levelId);
+    var tags = document.getElementById('logMsgTags').value;
+    var crError = document.getElementById('createError').checked==1;
+    var tagArray = tags.split(/\r\n|\r|\n/);
+    var error = null;
+    if(crError) {
+        try{
+            document.body.filters[0].apply()
+        } catch(e){ error = e; }
+    }
+    window.logHound.log(LogHoundLevels.getById(levelId),msg,tagArray,error);
+}
+function onBodyLoad() {
+    window.logHound.doSetup();
+    window.logHound.setLogLevel(LogHoundLevels['TRACE']);
+    document.getElementById('lhVersion').innerHTML = '(v'+LogHoundVer.getLongText()+')';
+    addLogLevels();
+    document.getElementById('genRandom').onclick = generateRandomMsgs;
+    document.getElementById('logMessage').onclick = enterLogMessage;
+    window.logHound.logFatal('Fatal: If you see this, your app is toast.',['Tag1','AllTags']);
+    window.logHound.logError('Error: Very bad things have happened.',['Tag2']);
+    window.logHound.logWarn('Warn: Hey!  Something\'s off here.',['Tag3']);
+    window.logHound.logInfo('Info: FYI...',['Tag4','AllTags']);
+    window.logHound.logDebug('Debug: Getting into the nitty-gritty of what your app is thinking.',['Tag5']);
+    window.logHound.logTrace('Trace: Two functions and 3454920 log messages later...',['Tag6','AllTags']);
+    window.logHound.logInfo('Info: Long line handling?: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',['Defect']);
+    document.getElementById('showChkBx').onclick = showClicked;
+    document.getElementById('showChkBx').checked = (window.logHound.isShowing() ? 1 : 0);
+    document.getElementById('enableChkBx').onclick = toggleLogging;
+    document.getElementById('enableChkBx').checked = (window.logHound.isLoggingEnabled() ? 1 : 0);
+    document.getElementById('shadeChkBx').onclick = toggleShadeMode;
+    document.getElementById('shadeChkBx').checked = (window.logHound.isShaded() ? 1 : 0);
+    document.getElementById('msgLayoutSelect').onchange = changeMsgLayout;
+    return true;
+}
+</script>
+<style type="text/css">
+.checkbox {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    *overflow: hidden;
+}
+
+body {
+    background-color: #EEEEEE;
+}
+#bodyPlate {
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    font-family: Arial, Helvetica, serif;
+    font-size: 12px;
+    padding: 3px;
+    width: 800px;
+    margin: 0px auto;
+    overflow: auto;
+}
+.mainFont {
+    font-family: Verdana, sans-serif;
+    font-size: 8pt;
+}
+#facetsPlate {
+    font-family: Verdana, sans-serif;
+    font-size: 10pt;
+    color: #000099;
+    font-weight: bold;
+}
+#header {
+    font-size: 16pt;
+    color: #000099;
+    font-weight: bold;
+}
+#introduction {
+    font-size: 10pt;
+    padding-left: 10px;
+}
+#logGeneratorPlate {
+	/* overflow: auto; */
+}
+#genHeader {
+	margin-bottom: 15px;
+    font-size: 12pt;
+	font-weight: bold;
+}
+#logTagsPlate {
+    float: right;
+    display: inline;
+    margin-left: 5px;
+}
+#logTagsPlate label {
+    display: block;
+}
+#logMessagePlate {
+    float: left;
+    clear: both;
+}
+#logMsgLevelSelect { }
+#logMsgLevelSelectLabel { }
+#logMsgLevelSelect {
+    font-size: 8pt
+}
+#enterBtnPlate {
+    margin-top: 7px;
+}
+#createErrorPlate {
+    margin-top: 7px;
+}
+#createError {
+    vertical-align: -2px;
+    margin: 0px;
+    padding: 0px;
+}
+#createErrorLabel {
+
+}
+#logMsgText {
+    width: 100%;
+}
+#msgGen {
+    padding: 5px;
+}
+#msgGen table {
+    width: 1%;
+    margin: 0px auto;
+}
+#msgGenCtrls {
+    float: left;
+}
+#msgAutoGen {
+    margin-top: 10px;
+}
+.floatingDivider {
+    width: 100%;
+    align: center;
+    margin: 0px auto;
+}
+.floatingDivider > hr {
+    width: 90%;
+}
+#footer {
+    float: left;
+    clear: both;
+    width: 100%;
+    text-align: center;
+}
+#apiExamplePlate {
+    float: left;
+    clear: both;
+    width: 100%;
+}
+#levelSelectPlate {
+    width: 150px;
+}
+.outline {
+    /* border: 1px solid black; */
+}
+.descHeader {
+    margin-bottom: 2px;
+}
+#twocolumns {
+    margin-top: 10px;
+}
+#twocolumns tbody tr td {
+    vertical-align: top;
+}
+#ctrlCell {
+    width: 1%;
+}
+#msgTextPlate {
+    margin-top: 5px;
+}
+#showCtrlPlate {
+}
+.nextApiExample {
+    margin-top: 5px;
+}
+#msgLayoutCtrlPlate {
+    margin-top: 5px;
+}
+.ctrlPlate {
+    background-color: #DDDDDD;
+    padding: 3px 3px;
+}
+.codeEx {
+    border: 1px solid black;
+    background-color: #FFDDEE;
+    padding: 2px;
+    margin: 3px 20px;
+}
+</style>
+
+</head>
+<body onLoad="onBodyLoad();">
+<div id="bodyPlate" class="outline">
+<div id="facetsPlate">Facets Technologies Inc.</div>
+<div id="header">Log Hound Demo Sheet <span id="lhVersion">?</span></div>
+<table cellspacing="0" id="twocolumns"><tbody>
+    <tr>
+        <td id="ctrlCell">
+            <div id="logGeneratorPlate" class="outline mainFont">
+                <span id="genHeader">Log Message Generator</span>
+                <div id="msgAutoGen" class="outline ctrlPlate">
+                    Create <input id="genCount" name="genCount" type="text" class="mainFont" size="5" value="100"> random messages.
+                    <input id="genRandom" name="genRandom" type="button" class="mainFont" value="Generate">
+                </div>
+                <div class="floatingDivider"><hr /></div>
+                <div id="msgGen" class="outline ctrlPlate">
+                    <table cellspacing="0" border="0" class="mainFont"><tbody>
+                        <tr>
+                            <td>
+                                <div class="outline">
+                                    <div id="levelSelectPlate" class="outline mainFont">
+                                        <label id="logMsgLevelSelectLabel" class="outline">Select Level:
+                                        <select id="logMsgLevelSelect" class="mainFont" name="logMsgLevelSelect"></select></label>
+                                    </div>
+                                    <div id="createErrorPlate" class="outline mainFont">
+                                         <label id="createErrorLabel" class="outline">Create Error:
+                                         <input type="checkbox" id="createError" name="createError" class="checkbox" value="createError" /></label>
+                                    </div>
+                                    <div id="enterBtnPlate" class="outline"><input id="logMessage" name="logMessage" type="button" class="mainFont" value="Create Message"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <label for="logMsgTags">Enter Message Tags:</label>
+                                <textarea id="logMsgTags" name="logMsgTags" class="mainFont " cols="20" rows="4"></textarea>
+                            </td>
+                        </tr>
+                    </tbody></table>
+                    <div id="msgTextPlate" class="outline">
+                        <label class="outline" for="logMsgText">Enter Message Text:</label>
+                        <textarea id="logMsgText" name="logMsgText" class="mainFont" cols="40" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+<div id="introduction">
+<p><h3 class="descHeader">Welcome to the demo...</h3>
+    This is the Log Hound Demonstration page.  Use this page to see what Log Hound can do, and then
+    use the code as a template for how to implement Log Hound for yourself.</p>
+<p><h3 class="descHeader">Where is it?</h3>
+    See that blue bar in the upper right hand corner of the page?  That's Log Hound in shade mode.
+    click on the down arrow (v) to open up the message pane.  Click on the "C" to open the control
+    bar.  Click on "T" to open the tab controls.  Finally, click on "?" to open a help panel that
+    will show you detail information on whatever control you hover your mouse over.  That should
+    be enough to get you started.</p>
+</div>
+        </td>
+    </tr>
+</tbody></table>
+<div class="floatingDivider"><hr /></div>
+<div id="apiExamplePlate">
+    <span id="genHeader">API Examples</span>
+    <div id="shadeCtrlPlate" class="outline ctrlPlate">
+        <label class="outline">Shade mode:
+        <input type="checkbox" id="shadeChkBx" name="shadeChkBx" class="checkbox" value="false" /></label>
+        <pre class="outline codeEx">window.logHound.setShadeState()</pre>
+    </div>
+    <div id="showCtrlPlate" class="outline ctrlPlate">
+        <label class="outline">Show:
+        <input type="checkbox" id="showChkBx" name="showChkBx" class="checkbox" value="false" /></label>
+        <pre class="outline codeEx">window.logHound.show()</pre>
+    </div>
+    <div id="enableLogPlate" class="outline ctrlPlate nextApiExample">
+        <label class="outline">Enable Logging:
+        <input type="checkbox" id="enableChkBx" name="enableChkBx" class="checkbox" value="true" /></label>
+        <pre class="outline codeEx">window.logHound.enableLogging()</pre>
+    </div>
+    <div id="msgLayoutCtrlPlate" class="outline ctrlPlate nextApiExample">
+        <label class="outline">Change message layout:
+            <select id="msgLayoutSelect" class="mainFont" name="msgLayoutSelect">
+                <option value="brief">brief</option>
+                <option value="detail">detail</option>
+            </select>
+        </label>
+        <pre class="outline codeEx">window.logHound.setMessageLayout()</pre>
+    </div>
+</div>
+<div id="footer">
+    <hr />
+    Facets Technologies, Inc. © Copyright 2012
+</div>
+</div>
+</body>
+</html>
