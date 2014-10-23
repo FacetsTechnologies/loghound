@@ -1,5 +1,5 @@
-<img align="right" src="https://facets-loghound.googlecode.com/svn/wiki/images/lh-2.5.0.a2.png"></img>
-# Log Hound<br/><span style="font-size:9px">Facets Technologies, Inc.</span>
+<img align="right" src="https://raw.githubusercontent.com/FacetsTechnologies/loghound/dev/v02.5.0/docs/lh-2.5.0.a2.png"></img>
+# Log Hound<br/><div style="font-size:9px">Facets Technologies, Inc.</div>
 Log Hound is a standalone JavaScript logging utility that allows you to log messages during execution of !JavaScript code.  The log messages are stored and are viewable via the logging user interface which allows you to search the messages using multiple cooperative criteria. Log messages can be categorized by severity and by tags that can be associated with the messages when they are logged.
 
 Logging functions can be reached globally through the window object, and since Log Hound can be disabled globally, there's no need to have to add and remove the logging statements between development and production of your code.

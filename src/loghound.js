@@ -251,15 +251,15 @@ LogHound.prototype.doSetup = function() {
     if(!!document && !!document.body) {
         this._doSetup();
     } else {
-        window.logHoundProc = {};
-        window.logHoundProc.loadAttempts = 5;
+        window.loghoundProc = {};
+        window.loghoundProc.loadAttempts = 5;
         var context = this;
-        window.logHoundProc.procId = setInterval(function() {
-            if((window.logHoundProc.loadAttempts--)<1) {
-                clearInterval(window.logHoundProc.procId);
+        window.loghoundProc.procId = setInterval(function() {
+            if((window.loghoundProc.loadAttempts--)<1) {
+                clearInterval(window.loghoundProc.procId);
             }
             if(!!document && !!document.body) {
-                clearInterval(window.logHoundProc.procId);
+                clearInterval(window.loghoundProc.procId);
                 context._doSetup();
             }
         }, 500);
@@ -308,7 +308,7 @@ LogHound.prototype._doSetup = function() {
         this.setPanelDisplay(this._viewPlates[i],this._viewPlates[i].lhDisplayStart);
     }
     this.setShadeState(true);
-    setTimeout('window.logHound.show(true)',800);
+    setTimeout('window.loghound.show(true)',800);
     this.logInfo('Log Hound is online...');
 };
 
@@ -369,7 +369,7 @@ LogHound.prototype._createControlPanel = function() {
     ctrlbar +=    '<div id="lhBtnClear" class="lhCtrl lhBtn lhSmFont" title="Clear All Logs">Clr</div>';
     ctrlbar +=    '<div id="lhLogCountLimitPlate"><div id="lhLogCountLimitBtn" class="lhCtrl lhBtnType1 lhSmFont" title="Log message count limit">2000</div></div>';
     ctrlbar +=    '<div id="lhCtrlSearchPlate">';
-    ctrlbar +=    '<input type="text" id="lhSearchField" name="lhSearchField" class="lhSearchField lhSmFont" onkeyup="window.logHound.search()" title="Type to search..." placeholder="Type to search..."/>';
+    ctrlbar +=    '<input type="text" id="lhSearchField" name="lhSearchField" class="lhSearchField lhSmFont" onkeyup="window.loghound.search()" title="Type to search..." placeholder="Type to search..."/>';
     ctrlbar +=    '</div></div>';
     ctrlbar +=    '<div id="lhCtrlRow2">';
     ctrlbar +=    '<div class="lhSpacer"></div><div id="lhCtrlLvlPlate">';
@@ -855,7 +855,7 @@ LogHound.prototype.interfaceMonitor = function(start) {
         start = (!this.debugWindowMonitorRef);
     }
     if(start) {
-        this.debugWindowMonitorRef = setInterval('window.logHound.stickLogPlateTopRight()', 200);
+        this.debugWindowMonitorRef = setInterval('window.loghound.stickLogPlateTopRight()', 200);
     } else {
         clearInterval(this.debugWindowMonitorRef);
         this.debugWindowMonitorRef = null;
@@ -1536,9 +1536,8 @@ FctsTools.extend(LogHoundMessageLevelFilter, LogHoundMessageFilter);
 LogHoundMessageLevelFilter.prototype.showMessage = function(msgRec) {
     return msgRec['level'].isEnabled();
 };
-if(window['logHound']==null) {
-    window['logHound'] = new LogHound();
-    window['loghound'] = window['logHound'];
+if(window['loghound']==null) {
+    window['loghound'] = new LogHound();
 }
 
 

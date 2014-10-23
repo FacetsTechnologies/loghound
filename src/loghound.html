@@ -17,16 +17,16 @@ quotes[quotes.length] = 'in vino veritas - "win loosens the tongue", litterally 
 
 function changeMsgLayout() {
     var selectElmt = document.getElementById('msgLayoutSelect');
-    window.logHound.setMessageLayout(selectElmt.options[selectElmt.selectedIndex].value);
+    loghound.setMessageLayout(selectElmt.options[selectElmt.selectedIndex].value);
 }
 function toggleLogging() {
-    window.logHound.enableLogging(document.getElementById('enableChkBx').checked);
+    loghound.enableLogging(document.getElementById('enableChkBx').checked);
 }
 function toggleShadeMode() {
-    window.logHound.setShadeState(document.getElementById('shadeChkBx').checked);
+    loghound.setShadeState(document.getElementById('shadeChkBx').checked);
 }
 function showClicked() {
-    window.logHound.show(document.getElementById('showChkBx').checked);
+    loghound.show(document.getElementById('showChkBx').checked);
 }
 function generateRandomMsgs() {
     var count = document.getElementById('genCount').value;
@@ -36,7 +36,7 @@ function generateRandomMsgs() {
     for(var i=0; i<count; i++) {
         level = LogHoundLevels[Math.floor(Math.random()*LogHoundLevels.length)];
         msg = quotes[Math.floor(Math.random()*quotes.length)];
-        window.logHound.log(msg,level);
+        loghound.log(msg,level);
     }
 }
 function addLogLevels() {
@@ -60,28 +60,28 @@ function enterLogMessage() {
             document.body.filters[0].apply()
         } catch(e){ error = e; }
     }
-    window.logHound.log(LogHoundLevels.getById(levelId),msg,tagArray,error);
+    loghound.log(LogHoundLevels.getById(levelId),msg,tagArray,error);
 }
 function onBodyLoad() {
-    window.logHound.doSetup();
-    window.logHound.setLogLevel(LogHoundLevels['TRACE']);
+    loghound.doSetup();
+    loghound.setLogLevel(LogHoundLevels['TRACE']);
     document.getElementById('lhVersion').innerHTML = '(v'+LogHoundVer.getLongText()+')';
     addLogLevels();
     document.getElementById('genRandom').onclick = generateRandomMsgs;
     document.getElementById('logMessage').onclick = enterLogMessage;
-    window.logHound.logFatal('Fatal: If you see this, your app is toast.',['Tag1','AllTags']);
-    window.logHound.logError('Error: Very bad things have happened.',['Tag2']);
-    window.logHound.logWarn('Warn: Hey!  Something\'s off here.',['Tag3']);
-    window.logHound.logInfo('Info: FYI...',['Tag4','AllTags']);
-    window.logHound.logDebug('Debug: Getting into the nitty-gritty of what your app is thinking.',['Tag5']);
-    window.logHound.logTrace('Trace: Two functions and 3454920 log messages later...',['Tag6','AllTags']);
-    window.logHound.logInfo('Info: Long line handling?: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',['Defect']);
+    loghound.logFatal('Fatal: If you see this, your app is toast.',['Tag1','AllTags']);
+    loghound.logError('Error: Very bad things have happened.',['Tag2']);
+    loghound.logWarn('Warn: Hey!  Something\'s off here.',['Tag3']);
+    loghound.logInfo('Info: FYI...',['Tag4','AllTags']);
+    loghound.logDebug('Debug: Getting into the nitty-gritty of what your app is thinking.',['Tag5']);
+    loghound.logTrace('Trace: Two functions and 3454920 log messages later...',['Tag6','AllTags']);
+    loghound.logInfo('Info: Long line handling?: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb',['Defect']);
     document.getElementById('showChkBx').onclick = showClicked;
-    document.getElementById('showChkBx').checked = (window.logHound.isShowing() ? 1 : 0);
+    document.getElementById('showChkBx').checked = (loghound.isShowing() ? 1 : 0);
     document.getElementById('enableChkBx').onclick = toggleLogging;
-    document.getElementById('enableChkBx').checked = (window.logHound.isLoggingEnabled() ? 1 : 0);
+    document.getElementById('enableChkBx').checked = (loghound.isLoggingEnabled() ? 1 : 0);
     document.getElementById('shadeChkBx').onclick = toggleShadeMode;
-    document.getElementById('shadeChkBx').checked = (window.logHound.isShaded() ? 1 : 0);
+    document.getElementById('shadeChkBx').checked = (loghound.isShaded() ? 1 : 0);
     document.getElementById('msgLayoutSelect').onchange = changeMsgLayout;
     return true;
 }
@@ -309,17 +309,17 @@ body {
     <div id="shadeCtrlPlate" class="outline ctrlPlate">
         <label class="outline">Shade mode:
         <input type="checkbox" id="shadeChkBx" name="shadeChkBx" class="checkbox" value="false" /></label>
-        <pre class="outline codeEx">window.logHound.setShadeState()</pre>
+        <pre class="outline codeEx">loghound.setShadeState()</pre>
     </div>
     <div id="showCtrlPlate" class="outline ctrlPlate">
         <label class="outline">Show:
         <input type="checkbox" id="showChkBx" name="showChkBx" class="checkbox" value="false" /></label>
-        <pre class="outline codeEx">window.logHound.show()</pre>
+        <pre class="outline codeEx">loghound.show()</pre>
     </div>
     <div id="enableLogPlate" class="outline ctrlPlate nextApiExample">
         <label class="outline">Enable Logging:
         <input type="checkbox" id="enableChkBx" name="enableChkBx" class="checkbox" value="true" /></label>
-        <pre class="outline codeEx">window.logHound.enableLogging()</pre>
+        <pre class="outline codeEx">loghound.enableLogging()</pre>
     </div>
     <div id="msgLayoutCtrlPlate" class="outline ctrlPlate nextApiExample">
         <label class="outline">Change message layout:
@@ -328,7 +328,7 @@ body {
                 <option value="detail">detail</option>
             </select>
         </label>
-        <pre class="outline codeEx">window.logHound.setMessageLayout()</pre>
+        <pre class="outline codeEx">loghound.setMessageLayout()</pre>
     </div>
 </div>
 <div id="footer">
