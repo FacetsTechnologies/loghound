@@ -31,11 +31,11 @@ var LogHoundVer = [];
 LogHoundVer['major'] = '2';
 LogHoundVer['minor'] = '5';
 LogHoundVer['fix'] = '0';
-LogHoundVer['build'] = '$Rev: 219 $';
+LogHoundVer['build'] = '';
 if(LogHoundVer['build'].length>5) {
     LogHoundVer['build'] = LogHoundVer['build'].substring(5).split(' ')[1];
 } else {
-    LogHoundVer['build'] = 'beta 1';
+    LogHoundVer['build'] = 'beta 2';
 }
 LogHoundVer['release'] = '';
 /**

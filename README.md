@@ -4,24 +4,25 @@ Log Hound is a standalone JavaScript logging utility that allows you to log mess
 
 Logging functions can be reached globally through the window object, and since Log Hound can be disabled globally, there's no need to have to add and remove the logging statements between development and production of your code.
 
-## News (June 3rd 2012)
+## News: October 23rd 2014 (We're back!)
 *Next Version: 2.5*
 
+* Moved project from google code site to github.  Mmmmmm... cool-aid!
 * Fixed layout issues.  Now the interface just looks slightly horrible.
 * Moved level masking buttons to second row in control panel to make way for more levels/user-added buttons.
 * Added "lhRun" query string parameter control.  Just add "?lhRun=true" (or false) to turn !LogHound on or off.  Documentation will be updated for this feature shortly.
 
-Functionality is next on the list per the outstanding issues for v2.5.  Alpha Release 3 is next and will probably be the last alpha release before beta starts. Don't let the Alpha moniker scare you - trunk is stable and fully functional.
+Functionality is next on the list per the outstanding issues for v2.5.  Beta 2 is next.
 
 ## Demonstration Pages
-1. [Trunk](https://facets-loghound.googlecode.com/svn/trunk/src/main/javascript/loghound.html): Vorpal-edge code that may or may not be stable.
-1. [Development](http://facets-loghound.googlecode.com/svn/tags/v2.0.1/src/main/javascript/loghound.html): The latest alpha or beta release. It will work, but things may be missing.
+1. [Trunk](http://htmlpreview.github.io/?https://github.com/FacetsTechnologies/loghound/blob/dev/v02.5.0/src/loghound.html): Vorpal-edge code that may or may not be stable.
+1. [Development](http://htmlpreview.github.io/?https://github.com/FacetsTechnologies/loghound/blob/dev/v02.5.0/src/loghound.html): The latest alpha or beta release. It will work, but things may be missing.
 1. [Release](http://facets-loghound.googlecode.com/svn/tags/v2.0.1/src/main/javascript/loghound.html): Version 2.0.1 is the latest full version.
 
 ## What now?
 Check out the [features](https://code.google.com/p/facets-loghound/wiki/Features).
 
-Look at the [http://facets-loghound.googlecode.com/svn/tags/v2.0.1/src/site/jsdoc/files.html API].
+Look at the [API](http://htmlpreview.github.io/?https://github.com/FacetsTechnologies/loghound/blob/dev/v02.5.0/docs/jsdoc/files.html).
 
 Download the latest version [(2.0.1)](http://facets-loghound.googlecode.com/files/loghound-2.0.1.zip). There's an html demonstration page in the zip you can open locally in a browser to play around with it.
 

@@ -5,7 +5,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="generator" content="JsDoc Toolkit" />
 		
-		<title>JsDoc Reference - InfoLogHoundLevel</title>
+		<title>JsDoc Reference - LogHoundTextSearchFilter</title>
 
 		<style type="text/css">
 			/* default.css */
@@ -189,35 +189,35 @@ ul.inheritsList
 <h2>Classes</h2>
 <ul class="classList">
 	
-	<li><i><a href="../symbols/_global_.html">_global_</a></i></li>
+	<li><i><a href="_global_.html">_global_</a></i></li>
 	
-	<li><a href="../symbols/DebugLogHoundLevel.html">DebugLogHoundLevel</a></li>
+	<li><a href="DebugLogHoundLevel.html">DebugLogHoundLevel</a></li>
 	
-	<li><a href="../symbols/ErrorLogHoundLevel.html">ErrorLogHoundLevel</a></li>
+	<li><a href="ErrorLogHoundLevel.html">ErrorLogHoundLevel</a></li>
 	
-	<li><a href="../symbols/FatalLogHoundLevel.html">FatalLogHoundLevel</a></li>
+	<li><a href="FatalLogHoundLevel.html">FatalLogHoundLevel</a></li>
 	
-	<li><a href="../symbols/InfoLogHoundLevel.html">InfoLogHoundLevel</a></li>
+	<li><a href="InfoLogHoundLevel.html">InfoLogHoundLevel</a></li>
 	
-	<li><a href="../symbols/LogHound.html">LogHound</a></li>
+	<li><a href="LogHound.html">LogHound</a></li>
 	
-	<li><a href="../symbols/LogHoundLevel.html">LogHoundLevel</a></li>
+	<li><a href="LogHoundLevel.html">LogHoundLevel</a></li>
 	
-	<li><a href="../symbols/LogHoundLevels.html">LogHoundLevels</a></li>
+	<li><a href="LogHoundLevels.html">LogHoundLevels</a></li>
 	
-	<li><a href="../symbols/LogHoundMessageFilter.html">LogHoundMessageFilter</a></li>
+	<li><a href="LogHoundMessageFilter.html">LogHoundMessageFilter</a></li>
 	
-	<li><a href="../symbols/LogHoundMessageLevelFilter.html">LogHoundMessageLevelFilter</a></li>
+	<li><a href="LogHoundMessageLevelFilter.html">LogHoundMessageLevelFilter</a></li>
 	
-	<li><a href="../symbols/LogHoundMessageTagFilter.html">LogHoundMessageTagFilter</a></li>
+	<li><a href="LogHoundMessageTagFilter.html">LogHoundMessageTagFilter</a></li>
 	
 	<li><a href="../symbols/LogHoundTextSearchFilter.html">LogHoundTextSearchFilter</a></li>
 	
-	<li><a href="../symbols/LogHoundVer.html">LogHoundVer</a></li>
+	<li><a href="LogHoundVer.html">LogHoundVer</a></li>
 	
-	<li><a href="../symbols/TraceLogHoundLevel.html">TraceLogHoundLevel</a></li>
+	<li><a href="TraceLogHoundLevel.html">TraceLogHoundLevel</a></li>
 	
-	<li><a href="../symbols/WarnLogHoundLevel.html">WarnLogHoundLevel</a></li>
+	<li><a href="WarnLogHoundLevel.html">WarnLogHoundLevel</a></li>
 	
 </ul>
 <hr />
@@ -228,26 +228,26 @@ ul.inheritsList
 <!-- ============================== class title ============================ -->
 			<h1 class="classTitle">
 				
-				Class InfoLogHoundLevel
+				Class LogHoundTextSearchFilter
 			</h1>
 
 <!-- ============================== class summary ========================== -->			
 			<p class="description">
 				
 				<br />Extends
-					<a href="../symbols/LogHoundLevel.html">LogHoundLevel</a>.<br />
+					<a href="LogHoundMessageFilter.html">LogHoundMessageFilter</a>.<br />
 				
 			
-				Info log level.
+				Provides the primary text searching functionality used by Log Hound.
 				
 				
-					<br /><i>Defined in: </i> <a href="../symbols/src/loghound.js.html">loghound.js</a>.
+					<br /><i>Defined in: </i> <a href="src/loghound.js.html">loghound.js</a>.
 				
 			</p>
 
 <!-- ============================== constructor summary ==================== -->			
 			
-			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class InfoLogHoundLevel.">
+			<table class="summaryTable" cellspacing="0" summary="A summary of the constructor documented in the class LogHoundTextSearchFilter.">
 				<caption>Class Summary</caption>
 				<thead>
 					<tr>
@@ -260,9 +260,9 @@ ul.inheritsList
 						<td class="attributes">&nbsp;</td>
 						<td class="nameDescription" >
 							<div class="fixedFont">
-								<b><a href="../symbols/InfoLogHoundLevel.html#constructor">InfoLogHoundLevel</a></b>()
+								<b><a href="../symbols/LogHoundTextSearchFilter.html#constructor">LogHoundTextSearchFilter</a></b>(searchText)
 							</div>
-							<div class="description"></div>
+							<div class="description">Message text search filter.</div>
 						</td>
 					</tr>
 				</tbody>
@@ -279,7 +279,7 @@ ul.inheritsList
 				
 				
 				<dl class="inheritsList">
-				<dt>Methods borrowed from class <a href="../symbols/LogHoundLevel.html">LogHoundLevel</a>: </dt><dd><a href="../symbols/LogHoundLevel.html#getId">getId</a>, <a href="../symbols/LogHoundLevel.html#getName">getName</a>, <a href="../symbols/LogHoundLevel.html#isEnabled">isEnabled</a>, <a href="../symbols/LogHoundLevel.html#setEnabled">setEnabled</a></dd>
+				<dt>Methods borrowed from class <a href="LogHoundMessageFilter.html">LogHoundMessageFilter</a>: </dt><dd><a href="LogHoundMessageFilter.html#getId">getId</a>, <a href="LogHoundMessageFilter.html#showMessage">showMessage</a></dd>
 				</dl>
 				
 			
@@ -294,17 +294,28 @@ ul.inheritsList
 				</div>
 				
 				<div class="fixedFont">
-						<b>InfoLogHoundLevel</b>()
+						<b>LogHoundTextSearchFilter</b>(searchText)
 				</div>
 				
 				<div class="description">
-					
+					Message text search filter.
 					
 				</div>
 				
 				
 				
 				
+					
+						<dl class="detailList">
+						<dt class="heading">Parameters:</dt>
+						
+							<dt>
+								 <b>searchText</b>
+								
+							</dt>
+								<dd></dd>
+						
+						</dl>
 					
 					
 					
