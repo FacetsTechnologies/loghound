@@ -1,0 +1,20 @@
+body {
+    font-family: Verdana, Tahoma, Arial, Helvetica, sans-serif;
+    font-size: .9em;
+}
+code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: .9em;
+    color: #002EBE;
+}
+pre {
+    font-family: "Courier New", Courier, monospace;
+    font-size: .9em;
+    color: #000099;
+    border: 1px solid #000000;
+    margin: 5px 10px;
+    padding: 5px;
+}
+.strong {
+    font-weight: bold;
+}

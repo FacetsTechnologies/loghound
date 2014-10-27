@@ -1,10 +1,12 @@
 <img align="right" src="https://raw.githubusercontent.com/FacetsTechnologies/loghound/dev/v02.5.0/docs/lh-2.5.0.a2.png"></img>
-# Log Hound<br/><div style="font-size:9px">Facets Technologies, Inc.</div>
+# Log Hound<br/><div style="font-size: 0.5em;">Facets Technologies, Inc.</div>
 Log Hound is a standalone JavaScript logging utility that allows you to log messages during execution of !JavaScript code.  The log messages are stored and are viewable via the logging user interface which allows you to search the messages using multiple cooperative criteria. Log messages can be categorized by severity and by tags that can be associated with the messages when they are logged.
 
 Logging functions can be reached globally through the window object, and since Log Hound can be disabled globally, there's no need to have to add and remove the logging statements between development and production of your code.
 
 ## News: October 23rd 2014 (We're back!)
+We are in the process of moving the project from Google Code to github.  If docs or code are missing or links are pointing to the nether regions of the 'net, they will be migrated soon.
+
 *Next Version: 2.5*
 
 * Moved project from google code site to github.  Mmmmmm... cool-aid!
@@ -12,7 +14,15 @@ Logging functions can be reached globally through the window object, and since L
 * Moved level masking buttons to second row in control panel to make way for more levels/user-added buttons.
 * Added "lhRun" query string parameter control.  Just add "?lhRun=true" (or false) to turn !LogHound on or off.  Documentation will be updated for this feature shortly.
 
-Functionality is next on the list per the outstanding issues for v2.5.  Beta 2 is next.
+*Future Version: 3.0*
+
+* Expand tagging feature so the interface can handle a bazillion tags, meaning:
+  * Add search
+  * Add ability to break interface out and make it bigger when it is.
+  * Add ability to save tag groups.
+* Add preference saving.
+* Yes! we will add interface dragging and docking.
+
 
 ## Demonstration Pages
 1. [Trunk](http://htmlpreview.github.io/?https://github.com/FacetsTechnologies/loghound/blob/dev/v02.5.0/src/loghound.html): Vorpal-edge code that may or may not be stable.

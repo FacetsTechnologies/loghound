@@ -1,0 +1,96 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Facets Log Hound Demo Page</title>
+    <link href="docs.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2>Installation</h2>
+<p>There are a few things that need to happen in order to get Log Hound up and running on your page.  The examples page in the repository can be used as a hard example of how to include and turn on Log Hound, but here's a more in-depth instruction.</p>
+
+<p><span class="strong">For the impatient</span> - what are you doing reading the instructions?!? Well, since you're here, you will want to skip to the [#Examples examples] below.</p>
+
+<hr/>
+
+<h3>How It Starts</h3>
+<p>Well, let's see: First the earth cooled. And, then the dinosaurs came, but they got too big and fat, so they all died, and they turned into oil... ahem.  Sorry, let me try that again.</p>
+
+<h4>On inclusion...</h4>
+<p>When the loghound.js file is included, Log Hound does two things - it instantiates one copy of itself (if Log Hound already exists, nothing is done) and assigns it to "<code>window.logHound</code>", and then it sets a few internal variables.  And that's it - nothing else is done and Log Hound is largely dead code.  Even calling one of the log methods (eg. <code>window.logHound.logInfo(...)</code>) degrades gracefully and does nothing but throw the method arguments away and return.</p>
+
+<h4>Setting up...</h4>
+To really start up Log Hound, you have to call Log Hound's "<code>doSetup()</code>" method. This method is what does all the heavy initialisation.  The reason for this is to give you options.  You have the option to include Log Hound in a global include page, but not have it run on any pages except those that you specifically want it to, on which you call the "`doSetup()`" method.  You also have the option to delay starting up Log Hound until you want it to start - like including a button on the page that would call "`doSetup()`" when clicked.  The point is that you have full control over when Log Hound starts up.
+
+<h4>Kill switch...</h4>
+As another option of controlling whether or not Log Hound starts up, there is the kill switch.  The "<code>setKillSwitch()</code>" method can be used as a global initialisation inhibitor. To clarify, let's paint a scenario:  You have 20+ pages that have the "<code>doSetup()</code>" call on them, but you want to turn Log Hound off globally so none of those calls to "<code>doSetup()</code>" actually set up Log Hound.  You want them to do nothing.  Most coders would then decide to put the 20+ calls to "<code>doSetup()</code>" in server side "if" clauses.  Most coders seem to like doing a lot of unnecessary work.
+
+With the kill switch, you can use a little javascript to tie the "<code>setKillSwitch()</code>" method to a hidden input field that gets its value from server-side.  This scenario is demonstrated in the "Complex" setup example below, but the gist of it is that you only need one call to the kill switch to disable Log Hound no matter how many calls to "<code>doSetup()</code>" exist.  If you put the kill switch decision code right after the javascript include for Log Hound, you'll be sure that you can completely short circuit Log Hound whenever you need to.
+
+<h4>It's ALIVE!!!</h4>
+If the javascript file is included, and the kill switch isn't set to true, and "<code>doSetup()</code>" is called, you will see the Log Hound user interface. If you are really lucky, you'll see it after someone other than me styled it so you aren't scarred for life.  That's it, then.
+
+<hr/>
+
+<h2>Examples</h2>
+
+<h3>Simple</h3>
+This is the the base, no frills install example:
+<pre>
+1   &lt;link href="/styles/loghound.css" rel="stylesheet" type="text/css" /&gt;
+2   &lt;script type="text/JavaScript" language="JavaScript" src="/js/fcts_lib.js"&gt;&lt;/script&gt;
+3   &lt;script type="text/javascript" language="JavaScript" src="/js/loghound.js"&gt;&lt;/script&gt;
+4   &lt;script type="text/javascript"&gt;
+5   function onBodyLoad() {
+6       window.logHound.doSetup();
+7   }
+8   &lt;/script&gt;
+9   &lt;body onLoad="onBodyLoad();"&gt;
+</pre>
+<span class="strong">Line-by-line:</span>
+<ul>
+    <li>1) Link in the style sheet.</li>
+    <li>2) Include the Facets global code used by Log Hound.</li>
+    <li>3) Include the Log Hound code.</li>
+    <li>4-8) Create a function for the body onLoad event that calls Log Hound's doSetup() function.</li>
+    <li>9) Make sure to call the body onLoad function!</li>
+</ul>
+<h3>Complex</h3>
+<pre>
+1   &lt;link href="/styles/loghound.css" rel="stylesheet" type="text/css" /&gt;
+2   &lt;script type="text/JavaScript" language="JavaScript" src="/js/fcts_lib.js"&gt;&lt;/script&gt;
+3   &lt;script type="text/javascript" language="JavaScript" src="/js/loghound.js"&gt;&lt;/script&gt;
+4
+5   &lt;script type="text/javascript"&gt;
+6   function loghoundControl() {
+7       var loghoundSwitch = document.getElementById('lhKillSwitch').value;
+8       window.logHound.setKillSwitch(loghoundSwitch!='on'));
+9   }
+10  function onBodyLoad() {
+11      loghoundControl();
+12      window.logHound.doSetup();
+13  }
+14  &lt;/script&gt;
+15  &lt;body onLoad="onBodyLoad();"&gt;
+16  &lt;input type="hidden" id="lhKillSwitch" name="lhKillSwitch" value="on" /&gt;
+</pre>
+<span class="strong">Line-by-line:</span>
+<ul>
+    <li>1) Link in the style sheet.</li>
+    <li>2) Include the Facets global code used by Log Hound.</li>
+    <li>3) Include the Log Hound code.</li>
+    <li>6) New function to be executed during the body onload event.</li>
+    <li>7) Retrieve the value of a field set by server side code.  This is assuming you are using aspx or jsp or php, etc...</li>
+    <li>8) For this example, if the killswitch value is anything other then "on", the kill switch is set to true, disabling Log Hound permanently.</li>
+    <li>11) During the body onload event, we check to see if Log Hound is allowed to live.</li>
+    <li>12) If the kill switch was not set to true by the function call on the previous line, this line will instantiate one (there can be only ONE!) copy of Log Hound and show the user interface.</li>
+    <li>15) Make sure the body onload event does the needful.</li>
+    <li>16) This is the hidden field with the value set by whatever server side script you are using.</li>
+    <li>17) ...</li>
+    <li>18) profit!</li>
+</ul>
+</body>
+</html>
+
+
