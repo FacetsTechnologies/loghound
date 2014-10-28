@@ -1,0 +1,83 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Facets LogHound: Usage</title>
+    <link href="docs.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2>Usage</h2>
+<p>Using Log Hound is supposed to be easy. In order to make sure it's easy, we've tested usage on banjo players and upper management (project manager and above) - because end users turned out to be too intelligent for our needs.  During that testing, we honed our log function signatures down to lean, succinct, and intuitively obvious usage patterns.  Ok - basically the functions are the same you see in every major logging framework you've ever encountered.  Why mess with what works?</p>
+
+<hr/>
+
+<h3>The Log Functions</h3>
+
+These are the functions you will want to get familiar with.
+<ul>
+    <li><span class="strong"><code>log()</code>:</span> Generic logging function that takes all the arguments that the level-specific log functions do, but also requires a LogHoundLevel object to denote the log level of the message.  This is used in cases where you want write <span class="strikeout">dangerous and unnecessary</span> clever code</li>
+    <li><span class="strong"><code>logTrace()</code>:</span> Log a trace message.</li>
+    <li><span class="strong"><code>logDebug()</code>:</span> Log a debug message.</li>
+    <li><span class="strong"><code>logInfo()</code>:</span> Log an info message.</li>
+    <li><span class="strong"><code>logWarn()</code>:</span> Log a warn message.</li>
+    <li><span class="strong"><code>logError()</code>:</span> Log an error message.</li>
+    <li><span class="strong"><code>logFatal()</code>:</span> Log a fatal message.</li>
+</ul>
+
+For the level-specific log functions, the arguments list currently stands as such:
+
+<ul>
+    <li><span class="strong"><code>{String} message</code>:</span> The message to be logged.  This argument is required, as without it you are just teasing my nice framework.</li>
+    <li><span class="strong"><code>{String[]} tags</code>:</span> A string array of tags to associate with the message.  Tags can be used in searching through the messages in new and exciting ways! (Nice promo -ed)</li>
+    <li><span class="strong"><code>{Error} error</code>:</span> An error object that you caught.  This will be pretty-printed after the message in the log entry.</li>
+</ul>
+
+<span class="strong">NOTE:</span> The order of the arguments does not matter for any of the log functions. Log Hound has a rather ~~twisted~~ ingenious arguments parser that manages the log function arguments.
+
+<hr/>
+
+<h3>Simple Message</h3>
+
+You want to log a message.  There are two ways to do this:
+
+# Use the generic "log()" function, or
+# Use the level specific log function you desire
+
+The following two lines are analogous.  The first uses the generic log function which you can use in instances where you are entering log messages using some kind of eval (AKA "evil") code.  The second is your base-level log message entry line.
+
+<pre>
+window.logHound.log(LogHoundLevels['INFO'],'My message here.');
+
+window.logHound.logInfo('My message here.');
+</pre>
+<hr/>
+
+<h3>Message Tags</h3>
+
+<p>Tags can be associated with any log message. Tags are used in grouping messages together to make it easier to search for specific messages.  One way tags can be used is to separate log messages from different frameworks.  Each framework would include the framework name as a tag on every message logged in that framework.  In that way you could exclude all the messages from, say, your calendar JavaScript component from the rest of the messages, and then search using text matching without worrying about having to wade through the calendar messages as well.</p>
+
+<span class="strong">Note:</span> Message tags can only be alphanumeric. No periods, apostrophes, commas, etc...  This is a bug that will be fixed in a later version.
+
+To associate tags with the message, simply add an array of strings to the log function arguments:
+<pre>
+window.logHound.logInfo('My message here.',['Tag1','Tag2']);
+</pre>
+
+There are no limits to how many tags you can associate with a message, but use this intelligently - don't add too many tags to every message or searching will become a study in shooting yourself in the foot.
+
+<hr/>
+
+<h3>Errors</h3>
+
+In those extremely rare instances where persons unknown somehow managed to mess up your code in the five seconds between saving the new script and running it, causing untold mayhem and resulting in an error being thrown, you can add the Error object to the log function arguments.  When an Error object is encountered, Log Hound will try to pretty-print the error details and append that information to the log entry after the message text.
+
+<pre>
+try {
+    // do something stupid
+} catch(err) {
+    window.logHound.logError('Game over man!',['frameworkName'],err);
+}
+</pre>
+</body>
+</html>
