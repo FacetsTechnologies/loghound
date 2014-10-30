@@ -15,7 +15,7 @@ window.logHound.logInfo('Info: FYI...');
 </pre>
 <p>...and you get a log message in the Log Hound interface like this:</p>
 
-<img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exInfoMsgBrief.png"></img>
+<img align="center" src="images/exInfoMsgBrief.png"></img>
 
 <p>Out of the box, Log Hound supports your six basic logging levels: Fatal, Error, Warn, Info, Debug, and Trace.</p>
 
@@ -91,7 +91,7 @@ LogHoundLevelPreload[0] = PageLogHoundLevel;
 <p>The array declaration must be done by you and must occur before the javascript include for Log Hound.  This ensures that you can create a list of log levels that will be loaded when Log Hound is initialized.  If you create the array with the name "LogHoundLevelPreload", Log Hound will check for it and that it contains an array when the JavaScript include is executed.  Log Hound will then attempt to load all items in the array as log level functions.</p>
 <hr/>
 <h3>Control Bar</h3>
-<p><img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exCtrlBar.png"></img></p>
+<p><img align="center" src="images/exCtrlBar.png"></img></p>
 <p>From left to right:
 <ol>
     <li>"v" = Show more log messages.</li>
@@ -115,7 +115,7 @@ In this case the tags for the message are "Tag3" and "!AllTags".  Other tags you
 
 Tags can be utilized by the Log Hound interface with the tag controls:
 
-<p><img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exTagCtrls.png"></img></p>
+<p><img align="center" src="images/exTagCtrls.png"></img></p>
 <ol>
     <li>"A" = Any: Messages sporting any of the tags listed in the "Viewing" column will be display, and all others will be hidden.</li>
     <li>"I" = Intersection: Only messages with all the tags listed in the "Viewing" column will be displayed.</li>
@@ -134,6 +134,6 @@ window.logHound.logInfo('Nuts...',['tag8','methodName'],err);
 </pre>
 
 
-<img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exErrorLogging.png"></img>
+<img align="center" src="images/exErrorLogging.png"></img>
 </body>
 </html>
