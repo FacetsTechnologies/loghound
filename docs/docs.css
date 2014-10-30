@@ -18,6 +18,9 @@ pre {
 .strong {
     font-weight: bold;
 }
+.emph {
+    font-style: italic;
+}
 .strikeout {
     text-decoration: line-through;
 }

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Facets LogHound: Installation</title>
+    <link href="docs.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2>FAQ</h2>
+<h3>1. What the hell?</h3>
+
+<p>Yes - it's another JavaScript thingy.  But this one might actually be very helpful.  LogHound wasn't designed in absentia of any driving need.  On the contrary, I developed this little utility whilst wading my way through over a thousand lines of combined JavaScript, JQuery, and Microsoft JScript, all of which were going to be used solely on IE 7 and 8.  If that doesn't scare a developer into wanting to find a better way to debug, then I don't know what would.</p>
+<p>To save my sanity, I started outputting log messages from the back end to the browser.  It was ugly, and I wanted to sort through the messages, so I started creating an interface to display the messages in a useful way.  Thus LogHound was born.</p>
+
+
+<h3>2. Why???</h3>
+
+<p>Firebug Lite really isn't an option for JavaScript problems in IE.  If your first thought-reaction to that is "Why not just use IE Web Developer Toolbar", then you haven't used WDT on large complicated JavaScript projects.  If you have, then I sincerely hope you are getting paid more than me.</p>
+<p>As well, console.log leaves a lot to be desired, especially in the larger SPA projects of today.  Putting in and taking out logging statements is slow and painful, and searching through the console of the debugger of whatever browser you are using gets tedious and error prone when you have more than a few messages to parse.</p>
+
+<h3>3. Seriously?????</h3>
+
+Your banal questions bore me.  Bring it.
+
+<h3>4. Seriously - what does it do?</h3>
+
+LogHound provides a framework by which you can use JavaScript methods to store messages in the order they were received so that they may be displayed in the LogHound User interface.  Using the interface, you can select which log messages to view based on several different criteria provided by the many interface controls.
+Translated into cyber-colloquial terms: it throws strings at a floating div and allows you to block/none records using multivariate analysis. Word.
+
+A simple example of logging a message would look something like this:
+<pre>
+window.logHound.logWarn('This is a warning message.',['methodName','anotherTag']);
+</pre>
+
+<h3>5. Err... Browser Support?</h3>
+
+LogHound is being coded to work perfectly in Firefox, Chrome, Opera, and probably Safari if it doesn't tick me off.  As for IE, well, I'll make an effort.  The point is that standards come first.  Crappy maniacal insecure monopoly-driven browsers come second. See our [CompatibilityMatrix compatibility matrix] for more.
+
+<h3>6. But Internet Explorer has 99% of the market!</h3>
+
+<p>No.  It doesn't.  Internet Explorer's market share world wide dropped below 50% as of October 2010.  That's what Microsoft gets for driving Netscape out of the market, then cutting the IE development team to one person for three years (basically proof that they only cared about keeping their desktop monopoly safe, not about building a good browser). If it hadn't been for Firefox and to a lesser extent, Opera (sorry Opera guys!), we'd all still be using IE5. Just think about that for a while.</p>
+
+<p>Look - I've wasted almost half my time on this project trying to get the damned thing to look right in IE, instead of actually improving the functionality. Chrome, Opera, Safari, and Firefox all work with the same code, so why can't Internet Explorer?  So I've made a decision to stop worrying about it and to concentrate on building a really good tool that works on standards compliant browsers.  If someone comes along who wants to help fix the IE look and feel, I will welcome them with open arms (and probably pay them too!). Otherwise, I'll make it look passable in IE and move on with my life... and the project.</p>
+
+<h3>7. What does it depend on?</h3>
+
+Everything LogHound depends on is included in the zip package.  There's no dependency on any other library or framework.  LogHound uses 100% pure ECMAScript 5 JavaScript.
+
+<h3>8. What about <span class="emph">{insert favourite JS framework name here}</span>??? Why didn't you just use <span class="emph">{framework name here again to up its google score}</span>?  You are an idiot and wasting time if you don't use <span class="emph">{name framework for third time to summon its planar avatar to destroy non-utilizing projects}</span> instead of writing all that lame JS code.</h3>
+
+<p>{Sigh}.  Let's get one thing straight - I, and any competent JavaScript coder, can do anything with standard JS that you can do with your awesome framework.  The ONLY things frameworks give you is some brevity of code and respite from having to figure out browser quirks, project structure, some boiler-plate coding, etc...</p>
+
+<p>And let's be brutally honest here - THERE ARE DRAWBACKS!  Some projects require more than your say-so to decide to use a JS framework.  Most of the time, you - the coder that needs to use something like LogHound, is so far removed from those that make the decision whether or not you can add Lodash, et al, to the project, that you make kindergarten kids look like the power brokers of their classroom.</p>
+
+<p>This is to say that there are a lot of coders out there that might like to use LogHound, and they wouldn't be able to if they had to kite along the rest of a JS framework with it.
+So the answer to the question is this: We are coding LogHound to be usable by everyone first.  There will be time later to contemplate integration with the larger JavaScript frameworks and utility libraries in the market.</p>
+
+</body>
+</html>

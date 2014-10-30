@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+    <title>Facets LogHound: Installation</title>
+    <link href="docs.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<h2>Features</h2>
+<h3>Log Messages</h3>
+Log Hound is a JavaScript logger.  This is to say that you can have lines like this in your code:
+<pre>
+window.logHound.logInfo('Info: FYI...');
+</pre>
+<p>...and you get a log message in the Log Hound interface like this:</p>
+
+<img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exInfoMsgBrief.png"></img>
+
+<p>Out of the box, Log Hound supports your six basic logging levels: Fatal, Error, Warn, Info, Debug, and Trace.</p>
+
+<hr/>
+<h3>Create Your Own Message Filters</h3>
+Let's start with looking at an existing filter.
+
+<pre>
+01  function LogHoundTextSearchFilter(searchText) {
+02      LogHoundTextSearchFilter.baseConstructor.call(this, 'lhTxtSearchFilter');
+03      this.searchText = searchText;
+04      this.regex = new RegExp(searchText, 'i');
+05  }
+06  FctsTools.extend(LogHoundTextSearchFilter, LogHoundMessageFilter);
+07  LogHoundTextSearchFilter.prototype.showMessage = function(msgRec) {
+08      if(this.searchText=='') {
+09          return true;
+10      }
+11      return msgRec['text'].search(this.regex)>=0;
+12  };
+13  window.logHound.addMsgFilter(new LogHoundTextSearchFilter('textToMatch'));
+</pre>
+
+The above is the filter used when searching the message text for matches.  As the example shows, there are three things you need to do in order to create a filter:
+<ol>
+<li><span class="strong">Lines 1-5: Create your filter class</span><br/>
+The first line (02) in the class(function...constructor... javascript objects are confusing!) declaration sets the constructor up for the super class you are extending.  Leave the "this" argument as-is.  The second string argument needs to be a unique ID for your filter.  If you add the filter a second time to Log Hound, this ID is what Log Hound will use to identify and remove the existing instance of your filter.
+The rest of the filter class can do whatever you need it to do.  Pass whatever you need to the class constructor and set up your member variables - it's your show here.</li>
+
+<li><span class="strong">Line 6: Extend LogHoundMessageFilter with your class</span><br/>
+This is VERY IMPORTANT!!!!  Not only do you have to do this, but you have to extend LogHoundMessageFilter *_before_* you declare the <code>showMessage()</code> function of your object.  Why?  It's a JavaScript inheritance thing.  Just trust me.
+
+The first argument to the extend function is your class, the second needs to be the LogHoundMessageFilter class.</li>
+
+<li><span class="strong">Line 7: Add <code>showMessage(msgRec)</code> function to your class</span><br/>
+The "msgRec" variable will be a message record object with the following properties:<br/>
+<ul>
+<li>msgRec.element {DOMElement}: The DIV wrapper around the log message in the user interface.  Be VERY careful with what you do to this element!
+    <li>msgRec.error {Error}: A JavaScript error object if one was provided with the log message, or <code>null</code>.</li>
+    <li>msgRec.level {LogHoundLevel}: The log message level.</li>
+    <li>msgRec.number {Number}: The log message number.</li>
+    <li>msgRec.tags {String[ ]}: A string array of tags associated with the log message.</li>
+    <li>msgRec.text {String}: The string text of the message.</li>
+    <li>msgRec.timestamp {Date}: A JavaScript date object representing the timestamp of when the message was received by Log Hound.</li></ul></li>
+
+<li><span class="strong">Lines 8-11: Return <code>true</code> or <code>false</code></span><br/>
+You can use any of the information in the message record or from your filter implementation to determine if the log message should be visible.  Returning <code>true</code> will make the message visible, and returning <code>false</code> will hide it.  Keep in mind that filters are cumulative, so all it takes to hide a message is for one filter to return false.</li>
+
+<li><span class="strong">Line 13: Add the filter to Log Hound</span><br/>
+Don't forget to add the filter to Log Hound!  If you add the same filter twice, the first copy will be overwritten by the new copy.</li>
+</ol>
+<hr/>
+<h3>Define Your Own Log Levels (experimental)</h3>
+You can easily define your own log levels to Log Hound.  As an example, here's how to define a log level called "page":
+
+<pre>
+function PageLogHoundLevel() {
+    TraceLogHoundLevel.baseConstructor.call(this, 40, 'page', true);
+}
+var LogHoundLevelPreload = new Array();
+LogHoundLevelPreload[0] = PageLogHoundLevel;
+</pre>
+
+<p>The important parts are to give your log level function a unique name and to be sure to include the base constructor line.  For the base constructor line:
+<ul>
+    <li>'this' = don't change this.</li>
+    <li>'40' = this is the integer level weight of the log message and should reflect the position the message would represent.  Trace is 50 and Fatal is 100, the intervening levels occupying the multiples of ten.  If your message is more detailed than Trace (really???), then set it at a lower number than 50.  You get the idea.</li>
+    <li>'page' = the string name of the level.  Alpha characters only.  Must be unique.</li>
+    <li>'true' = Whether or not the level is enabled.  This is used internally, but can be used to initially disable a logging level until it is turned on in the interface. Keep this as "true" unless you know what you are doing.</li>
+</ul>
+</p>
+
+<p>The array declaration must be done by you and must occur before the javascript include for Log Hound.  This ensures that you can create a list of log levels that will be loaded when Log Hound is initialized.  If you create the array with the name "LogHoundLevelPreload", Log Hound will check for it and that it contains an array when the JavaScript include is executed.  Log Hound will then attempt to load all items in the array as log level functions.</p>
+<hr/>
+<h3>Control Bar</h3>
+<p><img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exCtrlBar.png"></img></p>
+<p>From left to right:
+<ol>
+    <li>"v" = Show more log messages.</li>
+    <li>"^" = Show less log messages.</li>
+    <li>Select box = Set new log level.  Messages will only be logged for level selected and those levels above it in the list.  This allows you to dynamically change the log level during execution of your scripts.</li>
+    <li>Coloured squares = Show level message toggles. Each of these coloured boxes represents a log message level.  Click on a box to hide the messages of that level in the display. Click again to show them.</li>
+    <li>"D" = Detail mode. This toggles the log message lines in the display to show more information about the messages.</li>
+    <li>Search text box = As you type in this text field, Log Hound will match the entered text to text in any of the messages and hide those messages that don't match.  Clear the field to show all messages again.</li>
+</ol></p>
+<hr/>
+<h3>Message Tags</h3>
+Logged messages can be tagged.  Tags allow you to manipulate and search through the log messages in new and unique ways.  Tags are applied by adding an array argument to the log method call:
+
+<pre>
+window.logHound.logInfo('Info: FYI...',['Tag3','AllTags']);
+</pre>
+
+In this case the tags for the message are "Tag3" and "!AllTags".  Other tags you could add to a message are:
+# the name of the function the message is logged in
+# the name of the script the message is from
+
+Tags can be utilized by the Log Hound interface with the tag controls:
+
+<p><img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exTagCtrls.png"></img></p>
+<ol>
+    <li>"A" = Any: Messages sporting any of the tags listed in the "Viewing" column will be display, and all others will be hidden.</li>
+    <li>"I" = Intersection: Only messages with all the tags listed in the "Viewing" column will be displayed.</li>
+    <li>"O" = Only: Only messages with all the tags listed in the "Viewing" column _and no other tags_ will be displayed.</li>
+    <li>"E" = Exclusion: Only messages that have _none_ of the tags in the "Viewing" column will be visible.</li>
+</ol>
+<hr/>
+<h3>Log Errors</h3>
+Log Hound will pretty-print error information if you pass in an error object.
+<pre>
+try {
+document.body.filters[0].apply();
+} catch(err) {
+window.logHound.logInfo('Nuts...',['tag8','methodName'],err);
+}
+</pre>
+
+
+<img align="center" src="https://facets-loghound.googlecode.com/svn/wiki/images/exErrorLogging.png"></img>
+</body>
+</html>
