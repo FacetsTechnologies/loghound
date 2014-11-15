@@ -127,9 +127,9 @@ Tags can be utilized by the Log Hound interface with the tag controls:
 Log Hound will pretty-print error information if you pass in an error object.
 <pre>
 try {
-document.body.filters[0].apply();
+    document.body.filters[0].apply();
 } catch(err) {
-window.logHound.logInfo('Nuts...',['tag8','methodName'],err);
+    window.logHound.logInfo('Nuts...',['tag8','methodName'],err);
 }
 </pre>
 

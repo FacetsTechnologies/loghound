@@ -435,3 +435,82 @@ FctsTools.preventEvent = function(evt) {
     }
     evt.returnValue = false;
 };
+/**
+ *
+ * @param {String|HTMLElement} element
+ */
+FctsTools.draggable = function(element) {
+    if((Object.prototype.toString.call(element) === '[object String]')) {
+        element = document.getElementById(element);
+    }
+    element.style.position = 'absolute';
+    var context = this;
+    element.addEventListener('click',function(event) {
+        context._drag(element,event);
+    });
+};
+FctsTools._drag = function(dragobj,event) {
+    // TODO take care of x axis here
+    var winHeight = (window.innerHeight ? window.innerHeight : document.body.clientHeight);
+    var winWidth = (window.innerWidth ? window.innerWidth : document.body.clientWidth);
+    var calHeight = (dragobj.offsetHeight ? dragobj.offsetHeight : dragobj.clientHeight);
+    var calWidth = (dragobj.offsetWidth ? dragobj.offsetWidth : dragobj.clientWidth);
+    var scrollLeft = document.body.scrollLeft;
+    var scrollTop = document.body.scrollTop;
+
+    var x = parseInt(dragobj.style.left);
+    var y = parseInt(dragobj.style.top);
+    var deltaX = event.clientX - x;
+    var deltaY = event.clientY - y;
+    if(document.addEventListener) {
+        document.addEventListener("mousemove", FctsDragMoveHandler, true);
+        document.addEventListener("mouseup", FctsDragStopHandler, true);
+    } else if(document.attachEvent) {
+        document.attachEvent("onmousemove", FctsDragMoveHandler);
+        document.attachEvent("onmouseup", FctsDragStopHandler);
+    }
+    if(event.stopPropagation) { event.stopPropagation(); }
+    if(window.event)          { window.event.cancelBubble = true; }
+    if(document.onSelectStart) {
+        document.onSelectStartOLD = document.onSelectStart;
+        document.onSelectStart = function() { event.returnValue = false;  return false; };
+    }
+    if(event.preventDefault) { event.preventDefault(); }
+    if(event.returnValue)    { event.returnValue = false; }
+
+    function FctsDragMoveHandler(e) {
+        if(!e) { e = window.event; }
+        var newLeft = (e.clientX - deltaX);
+        var newTop = (e.clientY - deltaY);
+        newLeft = ((newLeft+calWidth)>(winWidth+scrollLeft) ?  (winWidth-calWidth+scrollLeft) : newLeft);
+        newTop = ((newTop+calHeight)>(winHeight+scrollTop) ?  (winHeight-calHeight+scrollTop) : newTop);
+
+        dragobj.style.left = (newLeft<0+scrollLeft ? 0+scrollLeft : (newLeft+"px"));
+        dragobj.style.top = (newTop<0+scrollTop ? 0+scrollTop : (newTop+"px"));
+        console.log('New position: '+dragobj.style.left+','+dragobj.style.top);
+        if(e.stopPropagation) { e.stopPropagation(); }
+        e.cancelBubble = true;
+        if(e.preventDefault)  { e.preventDefault(); }
+        e.returnValue = false;
+        if(document.selection && document.selection.empty) document.selection.empty();
+        return false;
+    }
+    function FctsDragStopHandler(e) {
+        if(!e) { e = window.event; }
+        if(document.removeEventListener) {
+            document.removeEventListener("mouseup", FctsDragStopHandler, true);
+            document.removeEventListener("mousemove", FctsDragMoveHandler, true);
+        } else if(document.detachEvent) {
+            document.detachEvent("onmouseup", FctsDragStopHandler);
+            document.detachEvent("onmousemove", FctsDragMoveHandler);
+        }
+        if(e.stopPropagation) { e.stopPropagation(); }
+        e.cancelBubble = true;
+        if(e.preventDefault)  { e.preventDefault(); }
+        e.returnValue = false;
+        if(document.onselectstart) {
+            document.onselectstart = document.onselectstartOLD;
+        }
+        return false;
+    }
+};
